@@ -7,6 +7,7 @@ $('document').ready(
         app.data.getLatestPosts().then(
             function (data) {
                 app.ui.displayPosts(container, data);
+                app.data.saveReadNews(data);
             }
         )
 

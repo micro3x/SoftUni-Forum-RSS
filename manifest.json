@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "SoftUni Forum RSS",
-  "description": "This is a chome extension for notify you when there is a new forum post on the SoftUni Forum ",
+  "description": "This is a chrome extension for notify you when there is a new forum post on the SoftUni Forum ",
   "version": "0.1",
   "icons": {
     "19": "img/icon_small.png",
@@ -12,13 +12,15 @@
     "default_icon": "img/icon_small.png",
     "default_popup": "popup.html"
   },
+  "options_page": "settings.html",
   "background": {
     "scripts": [
       "lib/jquery-2.1.4.min.js",
       "lib/q.js",
       "app/data.js",
       "background.js"
-    ]
+    ],
+    "persistent": false
   },
   "permissions": [
     "activeTab",

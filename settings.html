@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SoftUni Forum RSS Options</title>
+    <link rel="stylesheet" href="options.css"/>
+</head>
+<body>
+    <div class="wrapper">
+        <div id="notify"></div>
+        <form id="settings-controls">
+            <fieldset>
+                <legend>News feed Check Interval</legend>
+                <label for="refresh-interval">Set Interval : </label>
+                <input id="refresh-interval" type="number" min="1" max="60"/>
+                <span> in minutes</span>
+            </fieldset>
+            <input type="submit" value="Save"/>
+        </form>
+    </div>
+    <script src="lib/jquery-2.1.4.min.js"></script>
+    <script src="app/settings.js"></script>
+</body>
+</html>

@@ -5,12 +5,13 @@ app.ui = app.ui || {};
 
     function displayPosts(container, data) {
         for(var itemIndex in data.rss.channel.item){
-            var link = createitem(data.rss.channel.item[itemIndex])
+            var id = data.rss.channel.item[itemIndex].guid['#text'];
+            var link = createitem(data.rss.channel.item[itemIndex], app.data.isNew(id));
             container.append(link);
         }
     }
 
-    function createitem(itemData){
+    function createitem(itemData, isNew){
         var li = $('<li>');
         var link = $('<a>');
 
@@ -18,6 +19,9 @@ app.ui = app.ui || {};
         link.attr('href', itemData.link['#text']);
         link.attr('target', "_blank");
 
+        if(isNew){
+            li.addClass('new-post');
+        }
 
         li.append(link);
         return li;

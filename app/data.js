@@ -2,6 +2,7 @@ var app = app || {};
 app.data = app.data || {};
 app.rssAddress = "https://softuni.bg/feed/forumposts";
 
+
 (function (scope) {
 
     function getXMLFeed() {
@@ -9,7 +10,7 @@ app.rssAddress = "https://softuni.bg/feed/forumposts";
 
         $.ajax(app.rssAddress,
             {
-                metthod: "GET"
+                method: "GET"
             })
             .success(function (data) {
                 deffered.resolve(data);
@@ -21,31 +22,24 @@ app.rssAddress = "https://softuni.bg/feed/forumposts";
         return deffered.promise;
     }
 
-    function saveFeed(data) {
-        sessionStorage.setItem("feedData", JSON.stringify(data));
+    function saveReadNews(data) {
+        var oldNews = getFeedIds(data);
+        localStorage.setItem("oldNews", JSON.stringify(oldNews));
     }
 
-    function saveReadNews(id) {
-        var oldNews = localStorage.getItem('oldNews');
-        if (oldNews) {
-            oldNews = JSON.parse(oldNews);
-        } else {
-            oldNews = [];
+    function getFeedIds(feedData){
+        var oldNews = [];
+        for (var feedIndex in feedData.rss.channel.item) {
+            var id = feedData.rss.channel.item[feedIndex].guid['#text'];
+            oldNews.push(id);
         }
-
-        if(oldNews.contains(id)){
-            return;
-        }
-
-        oldNews.push(id);
+        return oldNews;
     }
 
     function getLatestPosts() {
         return getXMLFeed().then(
             function (xmlData) {
-                //todo convert to JSON
                 var feedJSQN = xmlToJson(xmlData);
-                saveFeed(feedJSQN);
                 return feedJSQN;
             },
             function (error) {
@@ -92,7 +86,22 @@ app.rssAddress = "https://softuni.bg/feed/forumposts";
         return obj;
     }
 
+    function isNew(id){
+        var oldNews = localStorage.getItem('oldNews');
+        if(!oldNews){
+            return false;
+        }
+        oldNews = JSON.parse(oldNews);
+        if(oldNews.indexOf(id) > -1){
+            return false;
+        }
+        return true;
+
+    }
+
     scope.data.saveReadNews = saveReadNews;
     scope.data.getLatestPosts = getLatestPosts;
+    scope.data.isNew = isNew;
+    scope.data.getFeedIds = getFeedIds;
 
 })(app);
